@@ -3,7 +3,6 @@ from datetime import datetime
 from typing import Optional, Dict, Any, List, Literal
 
 # DOM 1: Document Management
-
 class Document(BaseModel):
     document_id: UUID4
     filename: str
@@ -21,7 +20,6 @@ class DocumentVersion(BaseModel):
     change_summary: Optional[Dict[str, Any]] = None
 
 # DOM 2: Knowledge Processing
-
 class Chunk(BaseModel):
     chunk_id: UUID4
     version_id: UUID4
@@ -44,10 +42,9 @@ class ChunkLineage(BaseModel):
     change_type: Literal["UNCHANGED", "UPDATED", "CREATED", "DELETED"]
 
 # DOM 3 & 4: Control & Agent
-
 class ProcessingJob(BaseModel):
-    job_id: UUID4
+    job_id     : UUID4
     document_id: UUID4
-    stage: str
-    status: Literal["PENDING", "RUNNING", "SUCCESS", "FAILED"]
+    stage  : str
+    status : Literal["PENDING", "RUNNING", "SUCCESS", "FAILED"]
     details: Optional[Dict[str, Any]] = None

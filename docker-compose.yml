@@ -1,8 +1,9 @@
 version: '3.8'
 
 services:
-  postgres:
+  db:
     image: ankane/pgvector:latest
+    container_name: eka_postgres
     environment:
       POSTGRES_DB: eka_db
       POSTGRES_USER: admin
@@ -10,12 +11,23 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./data/postgres_data:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio
+    container_name: eka_storage
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: password
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ./data/storage:/data
 
   redis:
     image: redis:alpine
+    container_name: eka_redis
     ports:
       - "6379:6379"
-
-volumes:
-  postgres_data:
