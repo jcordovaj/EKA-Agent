@@ -1,19 +1,29 @@
 import sys
 import os
-
-# Esto le dice a Python: "Añade la carpeta raíz del proyecto al camino de búsqueda"
-# El archivo está en src/persistence/, así que subimos dos niveles para llegar a la raíz
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 from sqlalchemy import create_engine
 from src.persistence.models import Base
 
-DATABASE_URL = "postgresql+psycopg2://admin:password@localhost:5432/eka_db"
+# --- CAMBIO AQUÍ: Pasamos los parámetros por separado ---
+# Esto evita que una URL sea parseada incorrectamente
+engine = create_engine(
+    "postgresql+psycopg2://",
+    creator=lambda: __import__('psycopg2').connect(
+        user="admin",
+        password="password",
+        host="localhost",
+        port="5432",
+        dbname="eka_db"
+    )
+)
 
 def create_tables():
-    engine = create_engine(DATABASE_URL)
-    Base.metadata.create_all(engine)
-    print("¡Éxito! Tablas creadas en la base de datos.")
+    try:
+        Base.metadata.create_all(engine)
+        print("¡Éxito! Tablas creadas en la base de datos.")
+    except Exception as e:
+        print(f"Error detallado: {e}")
 
 if __name__ == "__main__":
     create_tables()
