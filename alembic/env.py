@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from src.base import * # Importar todos los modelos Pydantic
+#from src.base import * # Importar todos los modelos Pydantic
 from src.persistence.models import Base # Definiremos el ORM Base aquí
 
 # Configurar 

@@ -31,5 +31,5 @@ class EmbeddingORM(Base):
     embedding_id = Column(UUID(as_uuid=True), primary_key=True)
     chunk_id = Column(UUID(as_uuid=True), ForeignKey('chunks.chunk_id'))
     embedding_model = Column(String)
-    # 1536 es la dimensión estándar de modelos como text-embedding-3-small
+    # 1536 size std de modelos como text-embedding-3-small
     vector = Column(Vector(1536))
